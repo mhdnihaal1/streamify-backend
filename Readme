@@ -1,0 +1,25 @@
+
+----------------in terminal for sql
+
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -p 5432
+
+
+-------------for creating db
+
+CREATE DATABASE dashboard_db;
+
+\l ------for listing db
+
+\d ------for listing tables
+
+\c ------for connecting db
+
+\q ------exit
+
+
+----------prisma
+
+npx prisma format
+npx prisma generate
+npx prisma db push
+npx prisma studio
