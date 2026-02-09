@@ -1,9 +1,7 @@
 import { Router } from "express";
 import {
   login,
-  register,
-  sendOtp,
-  verifyOtp,
+  register, 
   users,
   orgUser,
   addUser,
@@ -18,9 +16,6 @@ router.post("/addUser", addUser);
 router.post("/login", login);
 // router.post("/login", login);
 router.post("/userById",userById) 
-
-router.post("/sendOtp", sendOtp);
-router.post("/verifyOtp", verifyOtp);
 
 router.get("/users", users);
 router.post("/orgUser", orgUser);

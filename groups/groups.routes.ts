@@ -6,25 +6,31 @@ import {
   sendMessage,
   Organization,
   group,
+  groups,
   messages,
   addMembersToOrg,
   addMembersToGrp,
   grpMembers,
   groupMember,
-  removeMember
+  removeMember,
+  organizationById,
+  removeUsers
 } from "./groups.controller";
 
 const router = Router();
 router.post("/createOrg", createOrganization);
-router.post("/organization", Organization); //get org by id
+router.get("/organization", Organization); //get org by id
+router.post("/organizationById", organizationById); //get org by id
 
 router.post("/group", group); //get group by admin
-router.post("/groupMember", groupMember); //get group by admin
+router.post("/groups", groups); //get group by admin
+router.post("/groupMember", groupMember); 
 router.post("/createGrp", createGroup);
 
 router.post("/createMember", createMember);
 router.post("/grpMembers", grpMembers);
 router.post("/removeMember", removeMember);
+router.post("/removeUsers", removeUsers);
 
 router.post("/sendMessage", sendMessage); // create message
 router.post("/messages", messages); //get messages by id
