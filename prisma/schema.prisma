@@ -1,63 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Organization {
   id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
-
-  users  User[]
-  groups Group[]
+  groups    Group[]
+  users     User[]
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(MEMBER)
-  createdAt DateTime @default(now())
-
-  orgId String?
-  org   Organization? @relation(fields: [orgId], references: [id])
-
-   ownedGroups Group[] @relation("GroupOwner")
-
-   memberships GroupMember[]
-
-  messages Message[]
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  password    String
+  role        Role          @default(MEMBER)
+  createdAt   DateTime      @default(now())
+  orgId       String?
+  ownedGroups Group[]       @relation("GroupOwner")
+  memberships GroupMember[]
+  messages    Message[]
+  org         Organization? @relation(fields: [orgId], references: [id])
 }
 
 model Group {
-  id        String   @id @default(uuid())
+  id        String        @id @default(uuid())
   name      String
-  createdAt DateTime @default(now())
-
-  orgId String
-  org   Organization @relation(fields: [orgId], references: [id])
-
-   ownerId String?
-  owner   User? @relation("GroupOwner", fields: [ownerId], references: [id])
-
-  members  GroupMember[]
-  messages Message[]
+  createdAt DateTime      @default(now())
+  orgId     String
+  ownerId   String?
+  org       Organization  @relation(fields: [orgId], references: [id])
+  owner     User?         @relation("GroupOwner", fields: [ownerId], references: [id])
+  members   GroupMember[]
+  messages  Message[]
 }
 
 model GroupMember {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-
-  userId  String
-  groupId String
-
-  user  User  @relation(fields: [userId], references: [id])
-  group Group @relation(fields: [groupId], references: [id])
+  userId    String
+  groupId   String
+  group     Group    @relation(fields: [groupId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, groupId])
 }
@@ -66,12 +56,10 @@ model Message {
   id        String   @id @default(uuid())
   text      String
   createdAt DateTime @default(now())
-
-  senderId String
-  groupId  String
-
-  sender User  @relation(fields: [senderId], references: [id])
-  group  Group @relation(fields: [groupId], references: [id])
+  senderId  String
+  groupId   String
+  group     Group    @relation(fields: [groupId], references: [id])
+  sender    User     @relation(fields: [senderId], references: [id])
 }
 
 enum Role {
