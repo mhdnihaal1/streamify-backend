@@ -21,8 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // CORS (IMPORTANT: credentials + exact origin)
 app.use(
   cors({
-   origin: "*", // frontend URL
-    credentials: true   
+   origin: "*" 
   })
 );
 

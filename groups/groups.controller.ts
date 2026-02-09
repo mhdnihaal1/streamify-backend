@@ -1,6 +1,4 @@
-import { grpMembers } from "./groups.controller";
-import { GroupMember } from "./../node_modules/.prisma/client/index.d";
-import { Request, Response, text } from "express";
+ import { Request, Response, text } from "express";
 import { prisma } from "../prisma/client";
 
 export const createOrganization = async (req: Request, res: Response) => {

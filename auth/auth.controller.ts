@@ -179,9 +179,9 @@ export const users = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany({
       include: {
-        org: true, // organization details
-        GroupMember: true, // groups the user belongs to
-        Message: true, // user messages
+        org: true,  
+        memberships: true,  
+        messages: true,  
       },
     });
     if (!users) {
