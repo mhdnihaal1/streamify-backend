@@ -60,7 +60,7 @@ export const createGroup = async (req: Request, res: Response) => {
       data: { userId, groupId: group.id },
     });
 
-    res.status(201).json(group);
+    res.status(201).json({message:"Group created successfully",data:group});
   } catch (error) {
     console.error("Group creation error:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -110,7 +110,7 @@ export const sendMessage = async (req: Request, res: Response) => {
       data: { senderId, groupId, text },
     });
 
-    res.json(message);
+    res.json({message:"Message sended successfully",data:message});
   } catch (error) {
     console.error("Message sending error:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -313,53 +313,7 @@ export const addMembersToGrp = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-export const grpMembers = async (req: Request, res: Response) => {
-  try {
-    const { groupId, userId, role } = req.body;
-    console.log("User from token:", req.user);
-    console.log("Received groupId:", groupId, "userId:", userId);
-    if (!groupId) {
-      return res.status(400).json({
-        message: "groupId and userId are required",
-      });
-    }
-    const member = await prisma.groupMember.findFirst({
-      where: { groupId, userId },
-      include: {
-        user: true,
-        group: true,
-      },
-    });
-
-    //     if (!member) {
-    //   return res.status(403).json({
-    //     message: "You are not allowed to access this group",
-    //   });
-    // }
-
-    const members = await prisma.groupMember.findMany({
-      where: { groupId },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-          },
-        },
-        group: true,
-      },
-    });
-
-    return res.status(200).json({ Success: true, data: members });
-  } catch (error) {
-    console.error("Message sending error:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
+ 
 export const removeMember = async (req: Request, res: Response) => {
   try {
     const { useri, groupId, adminId } = req.body;

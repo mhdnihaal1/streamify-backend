@@ -10,8 +10,7 @@ import {
   messages,
   addMembersToOrg,
   addMembersToGrp,
-  grpMembers,
-  groupMember,
+   groupMember,
   removeMember,
   organizationById,
   removeUsers
@@ -28,8 +27,7 @@ router.post("/groupMember", groupMember);
 router.post("/createGrp", createGroup);
 
 router.post("/createMember", createMember);
-router.post("/grpMembers", grpMembers);
-router.post("/removeMember", removeMember);
+ router.post("/removeMember", removeMember);
 router.post("/removeUsers", removeUsers);
 
 router.post("/sendMessage", sendMessage); // create message
