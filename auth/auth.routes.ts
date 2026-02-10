@@ -22,13 +22,13 @@ router.post("/orgUser", orgUser);
 
 router.post("/logout", (req, res) => {
   // Clear the cookie
-  res.cookie("token", "", {
+  res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    expires: new Date(0), // Expire immediately
     path: "/",
   });
+ 
 
   return res
     .status(200)

@@ -5,12 +5,14 @@ import dotenv from "dotenv";
 import authRoutes from "./auth/auth.routes";
 import userRoutes from "./users/users.routes";
 import groupRoutes from "./groups/groups.routes";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 
 /* ---------------- MIDDLEWARES ---------------- */
+app.use(cookieParser());
 
 // Parse JSON body
 app.use(express.json());
