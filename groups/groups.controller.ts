@@ -194,6 +194,34 @@ export const groups = async (req: Request, res: Response) => {
   }
 };
 
+
+export const groupById = async (req: Request, res: Response) => {
+  try {
+    const { groupi } = req.body;
+    if (!groupi) {
+      return res.status(400).json({
+        message: "groupi is required",
+      });
+    }
+    const group = await prisma.group.findMany({
+      where: { id: groupi },
+      include: {
+        members: {
+          include:{
+            user:true
+          }
+        },
+        user: true,
+      },
+    });
+
+    return res.status(200).json({ Success: true, data: groups });
+  } catch (error) {
+    console.error("Message sending error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const groupMember = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;

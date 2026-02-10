@@ -13,7 +13,8 @@ import {
    groupMember,
   removeMember,
   organizationById,
-  removeUsers
+  removeUsers,
+  groupById
 } from "./groups.controller";
 
 const router = Router();
@@ -23,6 +24,7 @@ router.post("/organizationById", organizationById); //get org by id
 
 router.post("/group", group); //get group by admin
 router.post("/groups", groups); //get group by admin
+router.post("/groupById", groupById); //get group by admin
 router.post("/groupMember", groupMember); 
 router.post("/createGrp", createGroup);
 
