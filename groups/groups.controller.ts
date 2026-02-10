@@ -197,25 +197,26 @@ export const groups = async (req: Request, res: Response) => {
 
 export const groupById = async (req: Request, res: Response) => {
   try {
-    const { groupi } = req.body;
-    if (!groupi) {
+    const { groupId } = req.body;
+    if (!groupId) {
       return res.status(400).json({
-        message: "groupi is required",
+        message: "groupId is required",
       });
     }
-    const group = await prisma.group.findMany({
-      where: { id: groupi },
+const group = await prisma.group.findFirst({
+  where: { id: groupId },
+  include: {
+    owner: true, // group owner (User)
+    members: {
       include: {
-        members: {
-          include:{
-            user:true
-          }
-        },
-        user: true,
+        user: true, // member user details
       },
-    });
+    },
+  },
+});
 
-    return res.status(200).json({ Success: true, data: groups });
+
+    return res.status(200).json({ Success: true, data: group });
   } catch (error) {
     console.error("Message sending error:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -342,17 +343,15 @@ export const addMembersToGrp = async (req: Request, res: Response) => {
  
 export const removeMember = async (req: Request, res: Response) => {
   try {
-    const { useri, groupId, adminId } = req.body;
-    if (!useri || !groupId || !adminId) {
+    const { memberId  } = req.body;
+    console.log(1,memberId)
+    if (!memberId  ) {
       return res.status(400).json({
-        message: "userId, groupId and adminId are required",
+        message: "memberId are required",
       });
     }
     const membership = await prisma.groupMember.findFirst({
-      where: {
-        userId: useri,
-        groupId,
-      },
+      where: {id:memberId},
     });
     if (!membership) {
       return res.status(404).json({
@@ -361,7 +360,7 @@ export const removeMember = async (req: Request, res: Response) => {
     }
     await prisma.groupMember.delete({
       where: {
-        id: membership.id,
+        id:memberId 
       },
     });
     return res.status(200).json({

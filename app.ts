@@ -18,10 +18,10 @@ app.use(express.json());
 // Parse form data (optional but useful)
 app.use(express.urlencoded({ extended: true }));
 
-// CORS (IMPORTANT: credentials + exact origin)
-app.use(
+ app.use(
   cors({
-   origin: "*" 
+    origin: "http://localhost:5173",
+    credentials: true, 
   })
 );
 

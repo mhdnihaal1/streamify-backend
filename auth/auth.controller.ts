@@ -112,7 +112,7 @@ export const addUser = async (req: Request, res: Response) => {
   `,
     );
 
-    res.json(user);
+    res.json({message:"user created successfully",data:user});
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ message: "Internal server error" });
