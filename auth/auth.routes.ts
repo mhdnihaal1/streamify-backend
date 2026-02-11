@@ -1,23 +1,14 @@
 import { Router } from "express";
-import {
-  login,
-  register, 
-  users,
-  orgUser,
-  addUser,
-  userById
-} from "./auth.controller";
+import { login, register, orgUser, addUser, userById } from "./auth.controller";
 import { protect } from "../middleware/auth.middleware";
 
 const router = Router();
 
 router.post("/register", register);
-router.post("/addUser", addUser);
 router.post("/login", login);
-// router.post("/login", login);
-router.post("/userById",userById) 
 
-router.get("/users", users);
+router.post("/addUser", addUser);
+router.post("/userById", userById);
 router.post("/orgUser", orgUser);
 
 router.post("/logout", (req, res) => {
@@ -28,7 +19,6 @@ router.post("/logout", (req, res) => {
     sameSite: "lax",
     path: "/",
   });
- 
 
   return res
     .status(200)

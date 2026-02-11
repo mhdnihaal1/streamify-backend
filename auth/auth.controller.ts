@@ -26,7 +26,7 @@ export const register = async (req: Request, res: Response) => {
         name: fullName,
         email,
         password: hashedPassword,
-        orgId, 
+        orgId,
         role,
       },
     });
@@ -41,7 +41,7 @@ export const register = async (req: Request, res: Response) => {
 export const userById = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
- 
+
     const user = await prisma.user.findFirst({
       where: { id: userId },
       include: {
@@ -65,13 +65,11 @@ export const userById = async (req: Request, res: Response) => {
 
 export const addUser = async (req: Request, res: Response) => {
   try {
-
     const { fullName, email, password, orgId, group, role } = req.body.addData;
-     if (!fullName || !email || !password || !role) {
+    if (!fullName || !email || !password || !role) {
       return res.status(400).json({ message: "Please fill required fields" });
     }
-    // return
-    const hashedPassword = await bcrypt.hash(password, 10);
+     const hashedPassword = await bcrypt.hash(password, 10);
     const userExist = await prisma.user.findUnique({
       where: { email },
     });
@@ -88,16 +86,14 @@ export const addUser = async (req: Request, res: Response) => {
         role,
       },
     });
-    //  if(role !== 'ADMIN'){
-    const GrpMember = await prisma.groupMember.createMany({
+     const GrpMember = await prisma.groupMember.createMany({
       data: group.map((groupId: any) => ({
         userId: user.id,
-        groupId: groupId, // or directly groupId
+        groupId: groupId,  
       })),
       skipDuplicates: true,
     });
-    //  }
-
+ 
     await sendEmail(
       email,
       "Welcome to Kodds 🚀",
@@ -112,7 +108,7 @@ export const addUser = async (req: Request, res: Response) => {
   `,
     );
 
-    res.json({message:"user created successfully",data:user});
+    res.json({ message: "user created successfully", data: user });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -151,10 +147,10 @@ export const login = async (req: Request, res: Response) => {
     );
 
     res.cookie("token", token, {
-      httpOnly: true, // cannot be accessed via JS
-      secure: process.env.NODE_ENV === "production", // HTTPS only in production
-      sameSite: "lax", // prevent CSRF
-      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+      httpOnly: true,  
+      secure: process.env.NODE_ENV === "production",  
+      sameSite: "lax",  
+      maxAge: 24 * 60 * 60 * 1000,  
       path: "/", // cookie path
     });
 
@@ -175,35 +171,10 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const users = async (req: Request, res: Response) => {
-  try {
-    const users = await prisma.user.findMany({
-      include: {
-        org: true,  
-        memberships: true,  
-        messages: true,  
-      },
-    });
-    if (!users) {
-      return res.status(401).json({ message: "No users found" });
-    }
-
-    return res.status(200).json({
-      Success: true,
-      message: "Users fetched successfully",
-      users,
-    });
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
-
 export const orgUser = async (req: Request, res: Response) => {
   try {
     const { orgId } = req.body;
-    // return
-    if (!orgId) {
+     if (!orgId) {
       return res.status(400).json({ message: "Organization ID is required" });
     }
 
@@ -228,4 +199,3 @@ export const orgUser = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
- 

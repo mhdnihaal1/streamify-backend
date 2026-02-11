@@ -2,10 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "../prisma/client";
 
-export const protect = async (req: Request, res: Response, next: NextFunction) => {
+export const protect = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    // ✅ READ FROM COOKIE
-    const token = req.cookies?.token;
+     const token = req.cookies?.token;
 
     if (!token) {
       return res.status(401).json({ message: "Not authenticated" });
