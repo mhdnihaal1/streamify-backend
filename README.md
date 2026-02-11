@@ -3,6 +3,8 @@
 # This is a real-time Chat Application built with React (Vite) on the frontend and Node.js + Express on the backend. It uses PostgreSQL for database storage, hosted online with Supabase, and implements real-time updates using polling and Socket.IO.
 
 
+![Supabase](https://supabase.com/dashboard/project/uxrdcyeflfixgrtxxqof/editor/17599?schema=public)
+
 
                          Chat Functionality
 
