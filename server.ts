@@ -11,26 +11,22 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
-    credentials: true,   },
+    credentials: true, 
+    },
 });
  
 /* ===============================
    Socket Authentication Middleware
    =============================== */
 io.use((socket, next) => {
-  const cookieHeader = socket.handshake.headers.cookie; // read cookies
-  if (!cookieHeader) return next(new Error("Unauthorized"));
+  const userId = socket.handshake.auth?.userId;
 
-  const token = parseTokenFromCookie(cookieHeader, "token");
-  if (!token) return next(new Error("Unauthorized"));
-
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!);
-    socket.data.userId = payload.userId;
-    next();
-  } catch (err) {
-    next(new Error("Unauthorized"));
+  if (!userId) {
+    return next(new Error("Unauthorized"));
   }
+
+  socket.data.userId = userId; // safe place to store user info
+  next();
 });
 
 /* ===============================
